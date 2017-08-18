@@ -25,7 +25,7 @@
 class tripleo::profile::base::barometer (
   $step	= hiera('step'),
 ) {
-  if $step >= 4 {
+  if $step >= 5 {
     include ::barometer::rdt
     include ::barometer::collectd
   }
