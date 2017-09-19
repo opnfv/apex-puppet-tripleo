@@ -35,7 +35,7 @@ class tripleo::profile::base::neutron::opendaylight (
   $odl_api_ips  = hiera('opendaylight_api_node_ips'),
   $node_name    = hiera('bootstack_nodeid')
 ) {
-  if hiera('vpp_enabled', false) and ('odl-router_v2' in hiera('neutron::service_plugins', [])) {
+  if hiera('vpp_enabled', false) and ('odl-lispflowmapping-msmr' in hiera('opendaylight::extra_features', [])) {
     file { 'org.opendaylight.groupbasedpolicy.renderer.vpp.startup.cfg':
       ensure => file,
       path   => '/opt/opendaylight/etc/org.opendaylight.groupbasedpolicy.renderer.vpp.startup.cfg',
