@@ -35,7 +35,7 @@ class tripleo::profile::base::vpp (
     $controllers = any2array(split(hiera('controller_node_ips'), ','))
     if !empty($vpp_ctlplane_cidr) and size($controllers) == 1 {
       exec { 'vpp admin interface config':
-        command => "ip link add vpp-admin type veth peer name veth-admin && ip li set dev veth-admin master br-ctlplane && ifconfig veth-admin up && vppctl create host-interface name vpp-admin && vppctl set int ip addr host-vpp-admin ${vpp_ctlplane_cidr} && vppctl set interface state host-vpp-admin up",
+        command => "sleep 10 && ip link add vpp-admin type veth peer name veth-admin && ip li set dev veth-admin master br-ctlplane && ifconfig veth-admin up && vppctl create host-interface name vpp-admin && vppctl set int ip addr host-vpp-admin ${vpp_ctlplane_cidr} && vppctl set interface state host-vpp-admin up",
         path    => ['/bin', '/sbin'],
         unless  => 'ip link show veth-admin | grep br-ctlplane',
         require   => Class['fdio'],
