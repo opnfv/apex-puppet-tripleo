@@ -1,5 +1,4 @@
 [gerrit]
-host=review.openstack.org
+host=gerrit.opnfv.org
 port=29418
-project=openstack/puppet-tripleo.git
-defaultbranch=stable/pike
+project=apex-puppet-tripleo.git
