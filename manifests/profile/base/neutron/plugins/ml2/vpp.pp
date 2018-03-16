@@ -35,6 +35,7 @@ class tripleo::profile::base::neutron::plugins::ml2::vpp (
   $step      = Integer(hiera('step')),
   $etcd_host = hiera('etcd_vip'),
   $etcd_port = 2379,
+  $l3_hosts  = hiera('controller_host'),
 ) {
   if empty($etcd_host) {
     fail('etcd_vip not set in hieradata')
@@ -44,6 +45,7 @@ class tripleo::profile::base::neutron::plugins::ml2::vpp (
     class { '::neutron::plugins::ml2::vpp':
       etcd_host => $etcd_host,
       etcd_port => $etcd_port,
+      l3_hosts  => $l3_hosts,
     }
   }
 }
