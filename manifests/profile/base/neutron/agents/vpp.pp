@@ -31,19 +31,40 @@
 #   (Optional) etcd server listening port.
 #   Defaults to 2379
 #
+# [*physnet_mapping*]
+#   (Optional) physnet mapping, example: 'datacentre:eth1'. Note that the
+#   interface specified here is a kernel interface name that is bound to
+#   VPP.
+#   Defaults to []
+#
+# [*type_drivers*]
+#   (optional) List of network type driver entrypoints to be loaded
+#   Could be an array that can contain flat, vlan or vxlan
+#   Defaults to hiera('neutron::plugins::ml2::type_drivers', undef)
+#
 class tripleo::profile::base::neutron::agents::vpp(
-  $step      = Integer(hiera('step')),
-  $etcd_host = hiera('etcd_vip'),
-  $etcd_port = 2379,
+  $step            = Integer(hiera('step')),
+  $etcd_host       = hiera('etcd_vip'),
+  $etcd_port       = 2379,
+  $physnet_mapping = [],
+  $type_drivers    = hiera('neutron::plugins::ml2::type_drivers', undef),
 ) {
   if empty($etcd_host) {
     fail('etcd_vip not set in hieradata')
   }
 
   if $step >= 4 {
+    if $::hostname in hiera('controller_node_names') {
+      $service_plugins = hiera('neutron::service_plugins')
+    } else {
+      $service_plugins = undef
+    }
     class { '::neutron::agents::ml2::vpp':
-      etcd_host => $etcd_host,
-      etcd_port => $etcd_port,
+      etcd_host       => $etcd_host,
+      etcd_port       => $etcd_port,
+      physnets        => vpp_physnet_mapping($physnet_mapping),
+      type_drivers    => $type_drivers,
+      service_plugins => $service_plugins,
     }
   }
 }
