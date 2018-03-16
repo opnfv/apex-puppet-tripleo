@@ -40,10 +40,15 @@ class tripleo::profile::base::neutron::plugins::ml2::vpp (
     fail('etcd_vip not set in hieradata')
   }
 
+  $l3_hosts = undef
   if $step >= 4 {
+    if $::hostname in hiera('controller_node_names') {
+      $l3_hosts = strip(hiera('controller_node_names').split(',')[0])
+    }
     class { '::neutron::plugins::ml2::vpp':
       etcd_host => $etcd_host,
       etcd_port => $etcd_port,
+      l3_hosts  => $l3_hosts,
     }
   }
 }
