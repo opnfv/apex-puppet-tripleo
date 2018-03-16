@@ -41,9 +41,18 @@ class tripleo::profile::base::neutron::plugins::ml2::vpp (
   }
 
   if $step >= 4 {
+    if $::hostname in hiera('controller_node_names') {
+      $l3_hosts = strip(hiera('controller_node_names').split(',')[0])
+      $service_plugins = hiera('neutron::service_plugins')
+    } else {
+      $l3_hosts = undef
+      $service_plugins = undef
+    }
     class { '::neutron::plugins::ml2::vpp':
-      etcd_host => $etcd_host,
-      etcd_port => $etcd_port,
+      etcd_host       => $etcd_host,
+      etcd_port       => $etcd_port,
+      l3_hosts        => $l3_hosts,
+      service_plugins => $servce_plugins,
     }
   }
 }
