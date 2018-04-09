@@ -1,0 +1,7 @@
+Code-Review+2: Tim Rozet <trozet@redhat.com>
+Verified+1: Tim Rozet <trozet@redhat.com>
+Submitted-by: Tim Rozet <trozet@redhat.com>
+Submitted-at: Mon, 09 Apr 2018 19:53:06 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/55105
+Project: apex-puppet-tripleo
+Branch: refs/heads/master
