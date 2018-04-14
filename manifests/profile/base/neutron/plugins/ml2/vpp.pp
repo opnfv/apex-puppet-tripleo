@@ -42,7 +42,7 @@ class tripleo::profile::base::neutron::plugins::ml2::vpp (
 
   if $step >= 4 {
     if $::hostname in hiera('controller_node_names') {
-      $l3_hosts = strip(hiera('controller_node_names').split(',')[0])
+      $l3_hosts = "${hiera('controller_node_names').split(',')[0]}.${::domain}"
     } else {
       $l3_hosts = undef
     }
