@@ -6,10 +6,14 @@ module Puppet::Parser::Functions
       unless mapping.length == 2
         raise Puppet::ParseError, "Invalid physnet mapping format: #{item}. Expecting 'physnet:interface_name'"
       end
-      if defined? call_function
-        vpp_int = call_function('hiera', [mapping[1]])
+      if mapping[1].start_with?("tap")
+        vpp_int = mapping[1]
       else
-        vpp_int = function_hiera([mapping[1]])
+        if defined? call_function
+          vpp_int = call_function('hiera', [mapping[1]])
+        else
+          vpp_int = function_hiera([mapping[1]])
+        end
       end
       if vpp_int.to_s.strip.empty?
         raise Puppet::ParseError, "VPP interface mapped to #{mapping[1]} is not found."
