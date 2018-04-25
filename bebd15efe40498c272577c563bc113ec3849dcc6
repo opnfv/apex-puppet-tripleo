@@ -1,0 +1,8 @@
+Code-Review+1: Ricardo Noriega <rnoriega@redhat.com>
+Code-Review+2: Feng Pan <fpan@redhat.com>
+Verified+1: Feng Pan <fpan@redhat.com>
+Submitted-by: Feng Pan <fpan@redhat.com>
+Submitted-at: Wed, 25 Apr 2018 12:57:32 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/56271
+Project: apex-puppet-tripleo
+Branch: refs/heads/stable/fraser
