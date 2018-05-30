@@ -54,15 +54,18 @@ class tripleo::profile::base::neutron::agents::vpp(
   }
 
   if $step >= 4 {
+    $physnet_mapping_str = vpp_physnet_mapping($physnet_mapping)
     if $::hostname in hiera('controller_node_names') {
       $service_plugins = hiera('neutron::service_plugins')
+      $real_physnet_mapping = "${physnet_mapping_str},external:tap0"
     } else {
       $service_plugins = undef
+      $real_physnet_mapping = $physnet_mapping_str
     }
     class { '::neutron::agents::ml2::vpp':
       etcd_host       => $etcd_host,
       etcd_port       => $etcd_port,
-      physnets        => vpp_physnet_mapping($physnet_mapping),
+      physnets        => $real_physnet_mapping,
       type_drivers    => $type_drivers,
       service_plugins => $service_plugins,
     }
